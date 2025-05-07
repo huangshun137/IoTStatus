@@ -48,8 +48,10 @@ class MqttPublisher:
         :param water: 底盘
         :return:
         """
+        last_camera_time = time.time() - 4 # 初始化为4秒前，确保第一次循环立即执行
         while True:
-            time.sleep(1)
+            current_time = time.time()  # 获取当前时间
+            time.sleep(2)
             if left_arm is not None:
                 # self.gripper_state = left_arm.check_arm_state()
                 # arm_state = left_arm.check_arm_state()
@@ -66,10 +68,12 @@ class MqttPublisher:
                 self.water_info = {**robot_info, **robot_battery_info}
             if servo is not None:
                 self.servo_state = servo.check_servo_state()
-            # if camera is not None:
-            #     self.camera_state = camera.check_camera_state()
+            if camera is not None:
+                if current_time - last_camera_time >= 4:
+                    self.camera_state = camera.check_camera_state()
+                    last_camera_time = current_time  # 重置最后检查时间
 
-    def publicState(self, time_delay=1):
+    def publicState(self, time_delay=2):
         """发布状态"""
         self.mqtt_client.connect()
         while True:
@@ -121,7 +125,7 @@ class MqttPublisher:
 
         topic = self.iot_left_arm.get_topic(TopicType.DEVICE_PROPERTIES_REPORT)
         mesg = {
-            "lift_pos": self.lift_state.get("pos", None),
+            "lift_pos": self.lift_state.get("height", None),
             "lift_mode": self.lift_state.get("mode", None),
             "arm_joint": self.arm_state.get("joint", None),
             "arm_pose": self.arm_state.get("pose", None),
@@ -136,13 +140,13 @@ class MqttPublisher:
 
     def publicWater(self):
         """发布状态"""
+        if (self.water_info is None):
+            return
         topic = self.iot_water.get_topic(TopicType.DEVICE_MESSAGE_UP)
         mesg = { "isOnline": True }
         self.mqtt_client.publish(topic, mesg)
 
         topic = self.iot_water.get_topic(TopicType.DEVICE_PROPERTIES_REPORT)
-        if (self.water_info is None):
-            return
         mesg = {
             "move_target": self.water_info.get("move_target", None),
             "move_status": self.water_info.get("move_status", None),
@@ -158,7 +162,7 @@ class MqttPublisher:
 
     def publicCamera(self):
         """发布状态"""
-        if (self.camera_state is None or self.camera_state["status"] != "OK"):
+        if (self.camera_state is None or not self.camera_state["image_base64"]):
             return
         topic = self.iot_camera.get_topic(TopicType.DEVICE_MESSAGE_UP)
         mesg = { "isOnline": True }

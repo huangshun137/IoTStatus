@@ -3,19 +3,20 @@ import time
 
 from common import config
 # from controller import ArmController, WooshController, ServoController, WaterController
-from controller import ArmController, WaterController, CameraController
+from controller import ArmControllerJson, WaterController, CameraController
 from controller.UploadStatus import MqttPublisher
 
 def main():
     
-    arm_controller = ArmController.ArmController(config.left_arm_ip, 8080, 3)
+    # arm_controller = ArmController.ArmController(config.left_arm_ip, 8080, 3)
+    arm_controller = ArmControllerJson.Controller(config.left_arm_ip, 8080)
     # right_arm_controller = ArmController.ArmController(config.right_arm_ip, 8080, 3)
     # woosh = WooshController.Woosh(config.woosh_ip, config.woosh_id)
     water = WaterController.Water(config.water_ip)
     # servo = ServoController.Servo(config.servo_ip, config.servo_id)
     camera = CameraController.Camera(config.camera_ip)
 
-    arm_controller.create_robot_arm()
+    # arm_controller.create_robot_arm()
     # right_arm_controller.create_robot_arm()
 
     publisher = MqttPublisher()
@@ -31,7 +32,7 @@ def main():
         while True:
             time.sleep(0.5)
     except KeyboardInterrupt:
-        arm_controller.delete()
+        # arm_controller.delete()
         print("\n程序终止")
 
 if __name__ == "__main__":

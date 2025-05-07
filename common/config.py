@@ -14,7 +14,7 @@ servo_ip = "http://192.168.38.252:8678"
 servo_id = 1
 
 # 相机相关
-camera_ip = "http://192.168.39.28:5000"
+camera_ip = "http://192.168.10.100:5000"
 
 # 底盘相关
 #woosh_ip = "http://169.254.128.2:5480"
@@ -28,11 +28,12 @@ water_id = 10001
 
 # IOT ip 端口
 # iot_address = "192.168.39.71"
-iot_address = "101.42.154.188"
+# iot_address = "101.42.154.188"
+iot_address = "39.105.185.216"
 iot_port = 1883
 
 # IOT 设备id
-iot_left_arm = f"{product_arm_id}_{get_mac_address(interface="eth0")}_arm"
+iot_left_arm = f"{product_arm_id}_{get_mac_address(interface='eth0')}_arm"
 iot_right_arm = "67ce3c14a1c868e7b2953bae_right_arm"
 iot_left_gripper = "67ce3c14a1c868e7b2953bae_left_gripper"
 iot_right_gripper = "67ce3c14a1c868e7b2953bae_right_gripper"

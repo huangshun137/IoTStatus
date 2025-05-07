@@ -14,7 +14,7 @@ class Water:
         """通用重试逻辑"""
         for attempt in range(max_retries + 1):
             response = method(url, params=params)
-            if response.get('status') == 'OK':
+            if response and response.get('status') == 'OK':
                 return response
             else:
                 print(f"Attempt {attempt + 1}/{max_retries}")

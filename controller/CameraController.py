@@ -11,4 +11,4 @@ class Camera:
         self.httpUtil = HttpTool(base_url)
 
     def check_camera_state(self):
-        return self.httpUtil.get(url="/capture")
+        return self.httpUtil.get(url="/snapshoot")

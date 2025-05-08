@@ -117,7 +117,7 @@ class MqttPublisher:
 
     def publicLeftArm(self):
         """发布状态"""
-        if (self.arm_state is None):
+        if not self.arm_state or not self.lift_state:
             return
         topic = self.iot_left_arm.get_topic(TopicType.DEVICE_MESSAGE_UP)
         mesg = { "isOnline": True }

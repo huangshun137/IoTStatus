@@ -33,12 +33,12 @@ class Controller:
                   data["arm_state"]["pose"] = [x / 1000 for x in data["arm_state"]["pose"]]
                 return data["arm_state"]
         except Exception as e:
-            print("=============机械臂指令发送失败===============", e)
+            print("=============查询机械臂末端当前关节位姿失败===============", e)
             return False
 
     def check_lift_state(self):
         """
-        查询机械臂末端当前关节位姿
+        查询机械臂升降机构状态
         :return:
         """
         try:
@@ -56,7 +56,7 @@ class Controller:
                 # print(f"响应内容为{response}")
                 return json.loads(response)
         except Exception as e:
-            print("=============机械臂指令发送失败===============", e)
+            print("=============查询机械臂升降机构状态失败===============", e)
             return False
 
     def set_lift_pose(self, params):
@@ -111,7 +111,7 @@ class Controller:
                       "msg": "设置失败"
                   }
       except Exception as e:
-          print("=============机械臂指令发送失败===============", e)
+          print("=============设置升降机构高度失败===============", e)
           return {
               "ok": False,
               "msg": "设置失败"

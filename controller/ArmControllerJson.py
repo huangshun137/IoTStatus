@@ -28,11 +28,12 @@ class Controller:
             else:
                 # print(f"响应内容为{response}")
                 data = json.loads(response)
-                data["arm_state"]["joint"] = [x / 1000 for x in data["arm_state"]["joint"]]
-                data["arm_state"]["pose"] = [x / 1000 for x in data["arm_state"]["pose"]]
+                if data["arm_state"]:
+                  data["arm_state"]["joint"] = [x / 1000 for x in data["arm_state"]["joint"]]
+                  data["arm_state"]["pose"] = [x / 1000 for x in data["arm_state"]["pose"]]
                 return data["arm_state"]
         except Exception as e:
-            print("=============机械臂指令发送失败===============")
+            print("=============机械臂指令发送失败===============", e)
             return False
 
     def check_lift_state(self):
@@ -55,7 +56,7 @@ class Controller:
                 # print(f"响应内容为{response}")
                 return json.loads(response)
         except Exception as e:
-            print("=============机械臂指令发送失败===============")
+            print("=============机械臂指令发送失败===============", e)
             return False
 
     def set_lift_pose(self, params):

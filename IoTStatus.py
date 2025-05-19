@@ -3,13 +3,14 @@ import time
 
 from common import config
 # from controller import ArmController, WooshController, ServoController, WaterController
-from controller import ArmControllerJson, WaterController, CameraController
+from controller import ArmControllerHttp, WaterController, CameraController
 from controller.UploadStatus import MqttPublisher
 
 def main():
     
     # arm_controller = ArmController.ArmController(config.left_arm_ip, 8080, 3)
-    arm_controller = ArmControllerJson.Controller(config.left_arm_ip, 8080)
+    # arm_controller = ArmControllerJson.Controller(config.left_arm_ip, config.arm_port)
+    arm_controller = ArmControllerHttp.Controller(config.left_arm_ip, config.arm_http_port)
     # right_arm_controller = ArmController.ArmController(config.right_arm_ip, 8080, 3)
     # woosh = WooshController.Woosh(config.woosh_ip, config.woosh_id)
     water = WaterController.Water(config.water_ip)

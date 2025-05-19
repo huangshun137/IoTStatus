@@ -8,6 +8,8 @@ product_camera_id = "681ac3486cc0a3de12b5021b" # 相机产品ID
 # 眼睛和机器人眼睛同一个方向
 left_arm_ip = "192.168.10.18"
 right_arm_ip = "169.254.128.19"
+arm_port = 8080
+arm_http_port = 8090
 
 # 头部舵机相关
 servo_ip = "http://192.168.38.252:8678"
